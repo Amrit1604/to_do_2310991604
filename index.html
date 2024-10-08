@@ -3,62 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Assigner</title>
+    <title>Task Management System</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-image: url('https://img.freepik.com/free-photo/japan-background-digital-art_23-2151546131.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1726704000&semt=ais_hybrid');
             background-size: cover;
             background-position: center;
-            color: white; /* Make text color white for visibility */
+            color: rgb(255, 255, 255);
         }
-
         .overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.6); 
-            z-index: -1; 
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
         }
-
         .container {
             margin-top: 20px;
         }
-
+        .form-group label {
+            color: white;
+        }
+        .login-container {
+            margin-top: 100px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .btn-primary {
+            background-color: #ff5722;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #e64a19;
+        }
         .task-list {
             margin-top: 20px;
         }
-
         .task {
             margin-bottom: 10px;
         }
-
         .task.completed {
             background-color: #d4edda;
-            color: black; /* Change to black for readability */
+            color: black;
         }
-
         .task.pending {
             background-color: #f8d7da;
-            color: black; /* Change to black for readability */
+            color: black;
         }
-
         .task.expired {
             background-color: #f5c6cb;
-            color: black; /* Change to black for readability */
+            color: black;
         }
-
-        .form-group label {
-            color: white; /* Ensure form labels are visible */
+        .employee-work {
+            margin-top: 20px;
         }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
+        .timer {
+            font-size: 1.2rem;
+            font-weight: bold;
         }
-
+        h5{
+            color: black;
+        }
+        p{
+            color: black;
+        }
+        strong{
+            color: black;
+        }
+        div.timer{
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -66,169 +85,161 @@
     <div class="overlay"></div>
     
     <div class="container">
-        <h1 class="text-center">TO-DO LIST</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Create Task</h3>
-                <form id="taskForm">
-                    <div class="form-group">
-                        <label for="taskTitle">Task Title</label>
-                        <input type="text" class="form-control" id="taskTitle" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="taskDescription">Task Description</label>
-                        <textarea class="form-control" id="taskDescription"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="assignEmployee">Assign to Person</label>
-                        <select class="form-control" id="assignEmployee" required>
-                            <option value="Amrit Joshi">Amrit Joshi</option>
-                            <option value="Eknoor Singh">Eknoor Singh</option>
-                            <option value="Ekansh Dhiman">Ekansh Dhiman</option>
-                            <option value="Armaan Gautam">Armaan Gautam</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="taskDuration">Task Duration (minutes)</label>
-                        <input type="number" class="form-control" id="taskDuration" placeholder="Duration in minutes" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Create Task</button>
-                </form>
+        <!-- Stylish Login -->
+        <div id="loginPage" class="login-container">
+            <h2 class="text-center">Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+        </div>
+
+        <!-- Manager Page (Task Assigner) -->
+        <div id="managerPage" class="d-none">
+            <h1 class="text-center">Task Assigner</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Create Task</h3>
+                    <form id="taskForm">
+                        <div class="form-group">
+                            <label for="taskTitle">Task Title</label>
+                            <input type="text" class="form-control" id="taskTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDescription">Task Description</label>
+                            <textarea class="form-control" id="taskDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="assignEmployee">Assign to Person</label>
+                            <select class="form-control" id="assignEmployee" required>
+                                <option value="employee1">Employee 1</option>
+                                <option value="employee2">Employee 2</option>
+                                <option value="employee3">Employee 3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDuration">Task Duration (minutes)</label>
+                            <input type="number" class="form-control" id="taskDuration" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Task</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h3>Task List</h3>
+                    <ul id="taskList" class="list-group task-list"></ul>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h3>Task List</h3>
-                <ul id="tasksList" class="list-group task-list"></ul>
+        </div>
+
+        <!-- Employee Page -->
+        <div id="employeePage" class="d-none">
+            <h1 class="text-center">My Tasks</h1>
+            <ul id="employeeTasksList" class="list-group task-list"></ul>
+            <div class="employee-work">
+                <h3>Submit Your Work</h3>
+                <form id="workForm">
+                    <div class="form-group">
+                        <label for="workDescription">Work Description</label>
+                        <textarea class="form-control" id="workDescription" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Work</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const taskForm = document.getElementById('taskForm');
-    const tasksList = document.getElementById('tasksList');
-    let taskTimers = {};
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const managerPage = document.getElementById('managerPage');
+            const employeePage = document.getElementById('employeePage');
+            const loginPage = document.getElementById('loginPage');
 
-    loadTasks();
+            const taskForm = document.getElementById('taskForm');
+            const taskList = document.getElementById('taskList');
+            const employeeTasksList = document.getElementById('employeeTasksList');
 
-    taskForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-        const title = document.getElementById('taskTitle').value;
-        const description = document.getElementById('taskDescription').value;
-        const assignedTo = document.getElementById('assignEmployee').value;
-        const duration = parseInt(document.getElementById('taskDuration').value) * 60; // Convert to seconds
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                if (username === 'manager') {
+                    loginPage.classList.add('d-none');
+                    managerPage.classList.remove('d-none');
+                    loadTasks();
+                } else {
+                    loginPage.classList.add('d-none');
+                    employeePage.classList.remove('d-none');
+                    loadEmployeeTasks(username);
+                }
+            });
 
-        const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            taskForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const title = document.getElementById('taskTitle').value;
+                const description = document.getElementById('taskDescription').value;
+                const assignedTo = document.getElementById('assignEmployee').value;
+                const duration = document.getElementById('taskDuration').value;
 
-        const task = {
-            id: Date.now(),
-            title: title,
-            description: description,
-            assignedTo: assignedTo,
-            status: 'Pending',
-            duration: duration, // Duration in seconds
-            createdAt: Date.now()
-        };
-        tasks.push(task);
+                const task = {
+                    id: Date.now(),
+                    title,
+                    description,
+                    assignedTo,
+                    duration,
+                    status: 'Pending'
+                };
+                tasks.push(task);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                loadTasks();
+            });
 
-        try {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-            loadTasks();
-        } catch (e) {
-            console.error('Error saving tasks:', e);
-        }
-
-        taskForm.reset();
-    });
-
-    function loadTasks() {
-        tasksList.innerHTML = '';
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-        tasks.forEach(task => {
-            const li = document.createElement('li');
-            li.className = `list-group-item task ${task.status.toLowerCase()}`;
-
-            const timeLeft = Math.max(0, (task.duration - Math.floor((Date.now() - task.createdAt) / 1000)));
-
-            li.innerHTML = `
-                <h5>${task.title}</h5>
-                <p>${task.description}</p>
-                <small>Assigned to: ${task.assignedTo}</small>
-                <div>Time left: <span id="timeLeft-${task.id}">${formatTime(timeLeft)}</span></div>
-                <div class="btn-group mt-2">
-                    <button class="btn btn-success btn-sm" onclick="markAsComplete(${task.id})">Mark as Completed</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteTask(${task.id})">Delete</button>
-                </div>
-            `;
-            tasksList.appendChild(li);
-
-            if (task.status === 'Pending' && timeLeft > 0) {
-                startTimer(task.id, timeLeft);
+            function loadTasks() {
+                taskList.innerHTML = '';
+                tasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.classList.add('list-group-item', 'task');
+                    li.innerHTML = `
+                        <h5>${task.title}</h5>
+                        <p>${task.description}</p>
+                        <p><strong>Assigned to:</strong> ${task.assignedTo}</p>
+                        <div class="timer">Timer: ${task.duration} minutes</div>
+                    `;
+                    taskList.appendChild(li);
+                });
             }
+
+            function loadEmployeeTasks(username) {
+                employeeTasksList.innerHTML = '';
+                const userTasks = tasks.filter(task => task.assignedTo === username);
+                userTasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.classList.add('list-group-item', 'task');
+                    li.innerHTML = `
+                        <h5>${task.title}</h5>
+                        <p>${task.description}</p>
+                        <div class="timer">Time left: ${task.duration} minutes</div>
+                    `;
+                    employeeTasksList.appendChild(li);
+                });
+            }
+
+            // Employee work submission form
+            const workForm = document.getElementById('workForm');
+            workForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const workDescription = document.getElementById('workDescription').value;
+                alert('Work Submitted: ' + workDescription);
+            });
         });
-    }
-
-    function startTimer(taskId, timeLeft) {
-        const interval = setInterval(() => {
-            timeLeft--;
-
-            const timeElement = document.getElementById(`timeLeft-${taskId}`);
-            if (timeElement) {
-                timeElement.textContent = formatTime(timeLeft);
-            }
-
-            if (timeLeft <= 0) {
-                clearInterval(taskTimers[taskId]);
-                updateTask(taskId, 'Expired');
-            }
-        }, 1000);
-
-        taskTimers[taskId] = interval;
-    }
-
-    function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
-        return `${minutes}m ${remainingSeconds}s`;
-    }
-
-    window.markAsComplete = function (taskId) {
-        updateTask(taskId, 'Completed');
-        clearInterval(taskTimers[taskId]);
-    };
-
-    window.updateTask = function (taskId, status) {
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks = tasks.map(task => {
-            if (task.id === taskId) {
-                task.status = status;
-            }
-            return task;
-        });
-        try {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-            loadTasks();
-        } catch (e) {
-            console.error('Error updating task:', e);
-        }
-    };
-
-    window.deleteTask = function (taskId) {
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks = tasks.filter(task => task.id !== taskId);
-        try {
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-            loadTasks();
-        } catch (e) {
-            console.error('Error deleting task:', e);
-        }
-        clearInterval(taskTimers[taskId]);
-    };
-});
     </script>
 </body>
 </html>
